@@ -53,5 +53,23 @@ public class ExampleResource {
         loanService.delete(entity.getIdLoan());
         return Response.status(204).build();
     }
+    @PUT
+    @Path("{idClient}")
+    @Transactional
+    public LoanEntity updateClient(@PathParam("idClient") Long idClient, LoanEntity loan) {
 
+        LoanEntity entity = loanService.findById(idClient);
+        if (entity == null) {
+            throw new WebApplicationException("Client with id of " + idClient + " does not exist.", 404);
+        }
+        entity.setLoanNumber(loan.getLoanNumber());
+        entity.setMonthlyPaymentDate(loan.getMonthlyPaymentDate());
+        entity.setExpirationDate(loan.getExpirationDate());
+        entity.setQuotaNumber(loan.getQuotaNumber());
+        entity.setValidationCode(loan.getValidationCode());
+        entity.setInitialBalance(loan.getInitialBalance());
+        entity.setCurrentBalance(loan.getCurrentBalance());
+        loanService.save(entity);
+        return entity;
+    }
 }

@@ -54,13 +54,13 @@ public class ExampleResource {
         return Response.status(204).build();
     }
     @PUT
-    @Path("{idClient}")
+    @Path("{idLoan}")
     @Transactional
-    public LoanEntity updateClient(@PathParam("idClient") Long idClient, LoanEntity loan) {
+    public LoanEntity updateClient(@PathParam("idLoan") Long idLoan, LoanEntity loan) {
 
-        LoanEntity entity = loanService.findById(idClient);
+        LoanEntity entity = loanService.findById(idLoan);
         if (entity == null) {
-            throw new WebApplicationException("Client with id of " + idClient + " does not exist.", 404);
+            throw new WebApplicationException("Loan with id of " + idLoan + " does not exist.", 404);
         }
         entity.setLoanNumber(loan.getLoanNumber());
         entity.setMonthlyPaymentDate(loan.getMonthlyPaymentDate());

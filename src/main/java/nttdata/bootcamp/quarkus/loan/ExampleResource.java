@@ -38,9 +38,6 @@ public class ExampleResource {
     @POST
     @Transactional
     public Response create(LoanEntity loan) {
-        if (loan.getIdLoan() != null) {
-            throw new WebApplicationException("Id was invalidly set on request.", 422);
-        }
         loanService.save(loan);
         return Response.ok(loan).status(201).build();
     }

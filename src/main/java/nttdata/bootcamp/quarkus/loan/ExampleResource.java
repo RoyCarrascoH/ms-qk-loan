@@ -6,6 +6,7 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import nttdata.bootcamp.quarkus.loan.dto.LoanResponse;
+import nttdata.bootcamp.quarkus.loan.dto.ResponseBase;
 import nttdata.bootcamp.quarkus.loan.entity.LoanEntity;
 import nttdata.bootcamp.quarkus.loan.service.LoanService;
 import org.jboss.logging.Logger;
@@ -32,7 +33,7 @@ public class ExampleResource {
             response.setLoan(null);
         } else if (loan.size() == 0) {
             response.setCodigoRespuesta(1);
-            response.setMensajeRespuesta("No existen clientes");
+            response.setMensajeRespuesta("No existen prestamos");
             response.setLoan(loan);
         } else {
             response.setCodigoRespuesta(0);
@@ -44,7 +45,7 @@ public class ExampleResource {
 
     @GET
     @Path("{idLoan}")
-    public LoanEntity viewClientDetails(@PathParam("idLoan") Long idLoan) {
+    public LoanEntity viewLoanDetails(@PathParam("idLoan") Long idLoan) {
         LoanEntity entity = loanService.findById(idLoan);
         if (entity == null) {
             throw new WebApplicationException("Client with id of " + idLoan + " does not exist.", 404);
@@ -60,15 +61,22 @@ public class ExampleResource {
     }
 
     @DELETE
-    @Path("{idClient}")
+    @Path("{idLoan}")
     @Transactional
-    public Response delete(@PathParam("idClient") Long idLoan) {
+    public ResponseBase delete(@PathParam("idLoan") Long idLoan) {
+        ResponseBase response = new ResponseBase();
         LoanEntity entity = loanService.findById(idLoan);
         if (entity == null) {
+            response.setCodigoRespuesta(1);
+            response.setMensajeRespuesta("Id de Loan Card no existe");
             throw new WebApplicationException("Loan with id of " + idLoan + " does not exist.", 404);
+        } else {
+            response.setCodigoRespuesta(0);
+            response.setMensajeRespuesta("Eliminacion exitosa de loan id = " + idLoan);
+            loanService.delete(idLoan);
         }
-        loanService.delete(entity.getIdLoan());
-        return Response.status(204).build();
+
+        return response;
     }
 
     @PUT

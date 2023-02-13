@@ -12,7 +12,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Entity
 @Cacheable
-@Table(name = "LOANS")
+@Table(name = "loans")
 public class LoanEntity {
 
     @Id

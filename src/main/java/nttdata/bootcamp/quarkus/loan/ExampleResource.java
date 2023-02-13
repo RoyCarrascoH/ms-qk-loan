@@ -21,20 +21,20 @@ public class ExampleResource {
 
     @Inject
     private LoanService loanService;
+
     @GET
     public LoanResponse getLoans() {
         LoanResponse response = new LoanResponse();
         List<LoanEntity> loan = loanService.listAll();
-        if(loan==null){
+        if (loan == null) {
             response.setCodigoRespuesta(2);
             response.setMensajeRespuesta("Respuesta nula");
             response.setLoan(null);
-        }
-        else if(loan.size()==0){
+        } else if (loan.size() == 0) {
             response.setCodigoRespuesta(1);
             response.setMensajeRespuesta("No existen clientes");
             response.setLoan(loan);
-        }else{
+        } else {
             response.setCodigoRespuesta(0);
             response.setMensajeRespuesta("Respuesta Exitosa");
             response.setLoan(loan);
@@ -70,6 +70,7 @@ public class ExampleResource {
         loanService.delete(entity.getIdLoan());
         return Response.status(204).build();
     }
+
     @PUT
     @Path("{idLoan}")
     @Transactional

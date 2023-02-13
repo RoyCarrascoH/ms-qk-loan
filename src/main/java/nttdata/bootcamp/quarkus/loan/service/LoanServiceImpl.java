@@ -8,10 +8,11 @@ import nttdata.bootcamp.quarkus.loan.repository.LoanRepository;
 import java.util.List;
 
 @ApplicationScoped
-public class LoanServiceImpl implements  LoanService{
+public class LoanServiceImpl implements LoanService {
 
     @Inject
     LoanRepository loanRepository;
+
     @Override
     public List<LoanEntity> listAll() {
         return loanRepository.listAll();

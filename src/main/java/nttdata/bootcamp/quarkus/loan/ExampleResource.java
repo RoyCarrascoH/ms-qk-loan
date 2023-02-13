@@ -22,7 +22,7 @@ public class ExampleResource {
     @Inject
     private LoanService loanService;
     @GET
-    public LoanResponse getClients() {
+    public LoanResponse getLoans() {
         LoanResponse response = new LoanResponse();
         List<LoanEntity> loan = loanService.listAll();
         if(loan==null){

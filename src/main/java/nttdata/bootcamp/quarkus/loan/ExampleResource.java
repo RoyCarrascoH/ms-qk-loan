@@ -5,6 +5,7 @@ import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import nttdata.bootcamp.quarkus.loan.dto.LoanResponse;
 import nttdata.bootcamp.quarkus.loan.entity.LoanEntity;
 import nttdata.bootcamp.quarkus.loan.service.LoanService;
 import org.jboss.logging.Logger;
@@ -21,8 +22,24 @@ public class ExampleResource {
     @Inject
     private LoanService loanService;
     @GET
-    public List<LoanEntity> getClients() {
-        return loanService.listAll();
+    public LoanResponse getClients() {
+        LoanResponse response = new LoanResponse();
+        List<LoanEntity> loan = loanService.listAll();
+        if(loan==null){
+            response.setCodigoRespuesta(2);
+            response.setMensajeRespuesta("Respuesta nula");
+            response.setLoan(null);
+        }
+        else if(loan.size()==0){
+            response.setCodigoRespuesta(1);
+            response.setMensajeRespuesta("No existen clientes");
+            response.setLoan(loan);
+        }else{
+            response.setCodigoRespuesta(0);
+            response.setMensajeRespuesta("Respuesta Exitosa");
+            response.setLoan(loan);
+        }
+        return response;
     }
 
     @GET
